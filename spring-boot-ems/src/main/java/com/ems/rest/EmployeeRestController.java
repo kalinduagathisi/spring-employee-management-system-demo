@@ -54,4 +54,11 @@ public class EmployeeRestController {
         return updatedEmployee;
     }
 
+    // delete employee
+    @DeleteMapping("/employees/{employeeId}")
+    public void deleteEmployee(@PathVariable int employeeId){
+//        Employee deleteEmployee = employeeService.findById(employeeId);
+        employeeService.deleteById(employeeId);
+    }
+
 }
