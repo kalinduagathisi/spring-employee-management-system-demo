@@ -2,10 +2,7 @@ package com.ems.rest;
 
 import com.ems.entity.Employee;
 import com.ems.service.EmployeeService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
@@ -26,7 +23,7 @@ public class EmployeeRestController {
         return employeeService.findAll();
     }
 
-    
+
     // get employee by id
     @GetMapping("/employees/{employeeId}")
     public Employee getEmployee(@PathVariable int employeeId){
@@ -36,6 +33,18 @@ public class EmployeeRestController {
             throw new RuntimeException("Employee id not found - "+ employeeId);
         }
         return theEmployee;
+    }
+
+    // add new employee : POST request
+    @PostMapping("/employees")
+    public Employee addEmployee(@RequestBody Employee employee){   // employee data is coming through the request body in json format-) that why @RequestBody
+
+        // if id!= 0, then this will be treated as an update.
+        // to avoid this,initially set the employee id to zero.
+        // then it'll force to save a new item instead of update
+        employee.setId(0);
+        Employee newEmployee = employeeService.save(employee);
+        return newEmployee;
     }
 
 }
