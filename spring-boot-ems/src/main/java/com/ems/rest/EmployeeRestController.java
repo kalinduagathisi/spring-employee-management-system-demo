@@ -1,9 +1,9 @@
 package com.ems.rest;
 
-import com.ems.dao.EmployeeDAO;
 import com.ems.entity.Employee;
 import com.ems.service.EmployeeService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,6 +24,18 @@ public class EmployeeRestController {
     @GetMapping("/employees")
     public List<Employee> findAll(){
         return employeeService.findAll();
+    }
+
+    
+    // get employee by id
+    @GetMapping("/employees/{employeeId}")
+    public Employee getEmployee(@PathVariable int employeeId){
+        Employee theEmployee = employeeService.findById(employeeId);
+
+        if (theEmployee==null){
+            throw new RuntimeException("Employee id not found - "+ employeeId);
+        }
+        return theEmployee;
     }
 
 }
